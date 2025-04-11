@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joshua Almanza | Self Narrative</title>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+             <!--Logo -->
+             <a href="Assignment1.html">
+                <div class="logo">ALMANZA</div>
+            </a>
+
+            <!--Links-->
+            <nav>
+                <ul>
+                    <li><a href="Assignment1.html">Home</a></li>
+                    <li><a href="japan.html">Japan</a></li>
+                    <li><a href="korea.html">Korea</a></li>
+                </ul>
+            </nav>
+            <div class="clearfix"></div>
+        </header>
+        <main>
+            <div class="gallery-wrapper">
+                <div class="gallery">
+                    <img src="Images/shibuya.JPG" alt="Shibuya" width="600" height="400" onclick="openModal(this)">
+                    <div class="desc-right">Located in Shibuya</div>
+                  </div>
+                  
+                  <div class="gallery">
+                    <img src="Images/kita_sando.JPG" alt="Kita-Sando" width="600" height="400" onclick="openModal(this)">
+                    <div class="desc-right">Located in Kita-Sando</div>
+                  </div>
+                  
+                  <div class="gallery">
+                    <img src="Images/kinkakujicho.JPG" alt="Kinkakujicho" width="600" height="400" onclick="openModal(this)">
+                    <div class="desc-right">Located Kinkakujicho where the Golden Palace is located at</div>
+                  </div>
+                  
+                  <div class="gallery">
+                    <img src="Images/inaritaisha.JPG" alt="Fushimi Inari Taisha" width="600" height="400" onclick="openModal(this)">
+                    <div class="desc-right">Located in Kyoto, where the Fushimi Inari Taisha Shrine is located at</div>
+                  </div>
+            </div>
+        </main>
+                  
+    </div>
+
+    <!-- The Modal -->
+<div id="imgModal" class="modal" onclick="closeModal()">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImg">
+  </div>
+
+  <!-- Modal script -->
+<script>
+    function openModal(imgElement) {
+      const modal = document.getElementById("imgModal");
+      const modalImg = document.getElementById("modalImg");
+      modal.style.display = "block";
+      modalImg.src = imgElement.src;
+    }
+  
+    function closeModal() {
+      document.getElementById("imgModal").style.display = "none";
+    }
+  </script>
+
+<div class="next-page-btn-container">
+    <a class="btn next-page-btn" href="korea.html">Next Page ➡</a>
+  </div>
+</body>
+</html>
