@@ -1,0 +1,85 @@
+body {
+  background-color: #f2c46f; /* Cream background */
+  font-family: sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;  
+  height: 100vh;
+}
+
+canvas {
+  border: 2px solid #333;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  margin-top: 20px; /* Add some space between title and canvas */
+}
+
+/* Navigation styling */
+nav {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+nav a {
+  color: #333;
+  text-decoration: none;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Page title styling */
+.page-title {
+  margin-top: 50px; /* Space from top */
+  text-align: center;
+}
+
+.page-title h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px; /* Space below title */
+  font-weight: bold;
+}
+
+#canvas-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+#home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+#home h1 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.link-buttons a {
+  display: inline-block;
+  background: #333;
+  color: #fff;
+  padding: 12px 24px;
+  margin: 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.link-buttons a:hover {
+  background: #555;
+}
