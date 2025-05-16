@@ -1,0 +1,82 @@
+<HTML>
+<HEAD>
+	<TITLE>Michelangelo Chatbot</TITLE>
+	<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript" SRC="elizabot.js"></SCRIPT>
+	<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript" SRC="elizadata.js"></SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">
+<!--
+
+var eliza = new ElizaBot();
+var elizaLines = new Array();
+
+var displayCols = 60;
+var displayRows = 20;
+
+function elizaReset() {
+	eliza.reset();
+	elizaLines.length = 0;
+	elizaStep();
+}
+
+function elizaStep() {
+	var f = document.forms.e_form;
+	var userinput = f.e_input.value;
+	if (eliza.quit) {
+		f.e_input.value = '';
+		if (confirm("This session is over.\nStart over?")) elizaReset();
+		f.e_input.focus();
+		return;
+	}
+	else if (userinput != '') {
+		var usr = 'YOU:   ' + userinput;
+		var rpl ='MICHELANGELO: ' + eliza.transform(userinput);
+		elizaLines.push(usr);
+		elizaLines.push(rpl);
+		// display nicely
+		// (fit to textarea with last line free - reserved for extra line caused by word wrap)
+		var temp  = new Array();
+		var l = 0;
+		for (var i=elizaLines.length-1; i>=0; i--) {
+			l += 1 + Math.floor(elizaLines[i].length/displayCols);
+			if (l >= displayRows) break
+			else temp.push(elizaLines[i]);
+		}
+		elizaLines = temp.reverse();
+		f.e_display.value = elizaLines.join('\n');
+	}
+	else if (elizaLines.length == 0) {
+		// no input and no saved lines -> output initial
+		var initial = 'MICHELANGELO: ' + eliza.getInitial();
+		elizaLines.push(initial);
+		f.e_display.value = initial + '\n';
+	}
+	f.e_input.value = '';
+	f.e_input.focus();
+}
+
+//-->
+</SCRIPT>
+<link rel="stylesheet" type="text/css" href="styles.css">
+</HEAD>
+
+<BODY onload="window.setTimeout('elizaReset()',100)">
+
+<div class="chat-wrapper">
+  <img src="turtle.png" alt="Michelangelo" class="mikey-img">
+  <div class="chat-box">
+    <h3>Michelangelo</h3>
+    <form name="e_form" onsubmit="elizaStep();return false">
+      <textarea name="e_display" cols="60" rows="20" readonly></textarea><br>
+      <input type="text" name="e_input" size="50">
+      <input type="submit" value="Talk">
+      <input type="reset" value="Reset" onclick="window.setTimeout('elizaReset()',100)">
+    </form>
+  </div>
+</div>
+
+<p style="margin-top: 20 px;">
+  Want to see how Michelangelo learned to chat?
+  <a href="https://chatgpt.com/share/6826b6f8-e078-8005-be3e-cad0e161c096" target="_blank">Check out the TMNT chatbot setup conversation</a> 🐢🍕
+</p>
+
