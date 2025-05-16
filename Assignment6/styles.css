@@ -1,0 +1,57 @@
+/* styles.css */
+body {
+  background-color: #1a1a1a; /* dark background to pop the bright green text */
+  color: #39FF14; /* neon green text */
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Bubblegum Sans', cursive;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+textarea, input[type="text"] {
+  background-color: #2a2a2a;
+  color: #39FF14;
+  border: 2px solid #39FF14;
+  font-family: inherit;
+  padding: 8px;
+  width: 100%;
+}
+
+input[type="submit"], input[type="reset"] {
+  background-color: #39FF14;
+  color: black;
+  font-weight: bold;
+  padding: 6px 12px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+h3 {
+  font-size: 2em;
+  color: #39FF14;
+  text-shadow: 2px 2px #000;
+}
+
+img {
+  border-radius: 10px;
+}
+
+.chat-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.mikey-img {
+  width: 150px;
+  height: auto;
+  margin-top: 20px;
+}
+
+.chat-box {
+  max-width: 600px;
+}
