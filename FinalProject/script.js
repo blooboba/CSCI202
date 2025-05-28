@@ -4,6 +4,9 @@ let filteredRestaurants = [];
 let categories = ['All Categories'];
 let selectedCategory = 'All Categories';
 let searchQuery = '';
+let reviews = {}; // Store reviews by restaurant ID
+let currentRestaurantId = null;
+let selectedRating = 0;
 
 // DOM elements
 const searchInput = document.getElementById('searchInput');
@@ -14,8 +17,9 @@ const restaurantsContainer = document.getElementById('restaurantsContainer');
 const noResults = document.getElementById('noResults');
 
 // Initialize the application
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', async () => {    
     await loadRestaurants();
+    loadReviews();
     setupEventListeners();
     renderCategories();
     filterAndRenderRestaurants();
@@ -43,6 +47,20 @@ async function loadRestaurants() {
     }
 }
 
+// Load reviews from localStorage
+function loadReviews() {
+    const savedReviews = localStorage.getItem('restaurantReviews');
+    if (savedReviews) {
+        reviews = JSON.parse(savedReviews);
+    }
+}
+
+// Save reviews to localStorage
+function saveReviews() {
+    localStorage.setItem('restaurantReviews', JSON.stringify(reviews));
+}
+
+
 // Setup event listeners
 function setupEventListeners() {
     // Search input
@@ -68,8 +86,147 @@ function setupEventListeners() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             closeCategoryDropdown();
+            closeReviewModal();
         }
     });
+
+    // Star rating functionality
+    document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', (e) => {
+            selectedRating = parseInt(e.target.dataset.rating);
+            updateStarRating();
+        });
+    });
+
+    // Photo preview
+    document.getElementById('reviewPhoto').addEventListener('change', handlePhotoPreview);
+
+    // Review form submission
+    reviewForm.addEventListener('submit', handleReviewSubmission);
+}
+
+// Update star rating display
+function updateStarRating() {
+    document.querySelectorAll('.star').forEach((star, index) => {
+        if (index < selectedRating) {
+            star.classList.add('active');
+        } else {
+            star.classList.remove('active');
+        }
+    });
+}
+
+// Handle photo preview
+function handlePhotoPreview(e) {
+    const file = e.target.files[0];
+    const previewContainer = document.getElementById('photoPreview');
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            previewContainer.innerHTML = `<img src="${e.target.result}" alt="Review photo preview">`;
+            previewContainer.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+    } else {
+        previewContainer.classList.add('hidden');
+        previewContainer.innerHTML = '';
+    }
+}
+
+// Handle review form submission
+function handleReviewSubmission(e) {
+    e.preventDefault();
+    
+    const reviewerName = document.getElementById('reviewerName').value;
+    const reviewText = document.getElementById('reviewText').value;
+    const photoFile = document.getElementById('reviewPhoto').files[0];
+    
+    if (!selectedRating) {
+        alert('Please select a rating');
+        return;
+    }
+    
+    const review = {
+        id: Date.now(),
+        reviewerName,
+        rating: selectedRating,
+        text: reviewText,
+        date: new Date().toLocaleDateString(),
+        photo: null
+    };
+    
+    // Handle photo if provided
+    if (photoFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            review.photo = e.target.result;
+            addReview(review);
+        };
+        reader.readAsDataURL(photoFile);
+    } else {
+        addReview(review);
+    }
+}
+
+// Add review to the restaurant
+function addReview(review) {
+    if (!reviews[currentRestaurantId]) {
+        reviews[currentRestaurantId] = [];
+    }
+    
+    reviews[currentRestaurantId].push(review);
+    saveReviews();
+    closeReviewModal();
+    filterAndRenderRestaurants();
+}
+
+// Open review modal
+function openReviewModal(restaurantId, restaurantName) {
+    currentRestaurantId = restaurantId;
+    modalRestaurantName.textContent = `Add Review for ${restaurantName}`;
+    reviewModal.classList.remove('hidden');
+    
+    // Reset form
+    reviewForm.reset();
+    selectedRating = 0;
+    updateStarRating();
+    document.getElementById('photoPreview').classList.add('hidden');
+    document.getElementById('photoPreview').innerHTML = '';
+}
+
+// Close review modal
+function closeReviewModal() {
+    reviewModal.classList.add('hidden');
+    currentRestaurantId = null;
+}
+
+// Calculate average rating for a restaurant
+function calculateAverageRating(restaurantId) {
+    const restaurantReviews = reviews[restaurantId] || [];
+    if (restaurantReviews.length === 0) return 0;
+    
+    const sum = restaurantReviews.reduce((acc, review) => acc + review.rating, 0);
+    return sum / restaurantReviews.length;
+}
+
+// Generate star display
+function generateStarDisplay(rating) {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    let stars = '';
+    
+    for (let i = 0; i < 5; i++) {
+        if (i < fullStars) {
+            stars += '★';
+        } else if (i === fullStars && hasHalfStar) {
+            stars += '☆';
+        } else {
+            stars += '☆';
+        }
+    }
+    
+    return stars;
 }
 
 // Render category options
@@ -143,35 +300,66 @@ function renderRestaurants() {
     restaurantsContainer.classList.remove('hidden');
     noResults.classList.add('hidden');
 
-    restaurantsContainer.innerHTML = filteredRestaurants.map(restaurant => `
-        <div class="restaurant-card">
-            <div class="restaurant-card-content">
-                <img 
-                    src="${restaurant.image}" 
-                    alt="${restaurant.name}"
-                    class="restaurant-image"
-                    onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=300&fit=crop'"
-                >
-                <div class="restaurant-info">
-                    <div>
-                        <h3 class="restaurant-name">${restaurant.name}</h3>
-                        <p class="restaurant-category">
-                            ${restaurant.category}
-                            ${restaurant.subcategory ? `<span class="separator">•</span>${restaurant.subcategory}` : ''}
-                        </p>
-                        <p class="restaurant-description">
-                            ${restaurant.description} ${restaurant.emoji || ''}
-                        </p>
-                    </div>
-                    <div class="restaurant-actions">
-                        <button class="maps-button" onclick="openGoogleMaps('${restaurant.name}', '${restaurant.address || 'Bellingham, WA'}')">
-                            View on Google Maps
-                        </button>
+     restaurantsContainer.innerHTML = filteredRestaurants.map(restaurant => {
+        const avgRating = calculateAverageRating(restaurant.id);
+        const restaurantReviews = reviews[restaurant.id] || [];
+        
+        return `
+            <div class="restaurant-card">
+                <div class="restaurant-card-content">
+                    <img 
+                        src="${restaurant.image}" 
+                        alt="${restaurant.name}"
+                        class="restaurant-image"
+                        onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=300&fit=crop'"
+                    >
+                    <div class="restaurant-info">
+                        <div>
+                            <h3 class="restaurant-name">${restaurant.name}</h3>
+                            <p class="restaurant-category">
+                                ${restaurant.category}
+                                ${restaurant.subcategory ? `<span class="separator">•</span>${restaurant.subcategory}` : ''}
+                            </p>
+                            ${avgRating > 0 ? `
+                                <div class="restaurant-rating">
+                                    <span class="stars">${generateStarDisplay(avgRating)}</span>
+                                    <span class="rating-text">${avgRating.toFixed(1)} (${restaurantReviews.length} review${restaurantReviews.length !== 1 ? 's' : ''})</span>
+                                </div>
+                            ` : ''}
+                            <p class="restaurant-description">
+                                ${restaurant.description} ${restaurant.emoji || ''}
+                            </p>
+                        </div>
+                        
+                        ${restaurantReviews.length > 0 ? `
+                            <div class="reviews-section">
+                                <div class="reviews-header">Recent Reviews:</div>
+                                ${restaurantReviews.slice(-2).map(review => `
+                                    <div class="review-item">
+                                        <div class="review-header">
+                                            <span class="reviewer-name">${review.reviewerName}</span>
+                                            <span class="review-rating">${generateStarDisplay(review.rating)}</span>
+                                        </div>
+                                        <p class="review-text">${review.text}</p>
+                                        ${review.photo ? `<img src="${review.photo}" alt="Review photo" class="review-photo">` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                        
+                        <div class="restaurant-actions">
+                            <button class="review-button" onclick="openReviewModal('${restaurant.id}', '${restaurant.name}')">
+                                Add Review
+                            </button>
+                            <button class="maps-button" onclick="openGoogleMaps('${restaurant.name}', '${restaurant.address || 'Bellingham, WA'}')">
+                                View on Google Maps
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 // Open Google Maps
@@ -203,12 +391,3 @@ function debounce(func, wait) {
         timeout = setTimeout(later, wait);
     };
 }
-
-// Apply debouncing to search (optional optimization)
-const debouncedSearch = debounce((query) => {
-    searchQuery = query.toLowerCase();
-    filterAndRenderRestaurants();
-}, 300);
-
-// You can replace the direct search event listener with this for better performance:
-// searchInput.addEventListener('input', (e) => debouncedSearch(e.target.value));
