@@ -15,9 +15,12 @@ const categoryDropdown = document.getElementById('categoryDropdown');
 const selectedCategorySpan = document.getElementById('selectedCategory');
 const restaurantsContainer = document.getElementById('restaurantsContainer');
 const noResults = document.getElementById('noResults');
+const reviewModal = document.getElementById('reviewModal');
+const reviewForm = document.getElementById('reviewForm');
+const modalRestaurantName = document.getElementById('modalRestaurantName');
 
 // Initialize the application
-document.addEventListener('DOMContentLoaded', async () => {    
+document.addEventListener('DOMContentLoaded', async () => {
     await loadRestaurants();
     loadReviews();
     setupEventListeners();
@@ -59,7 +62,6 @@ function loadReviews() {
 function saveReviews() {
     localStorage.setItem('restaurantReviews', JSON.stringify(reviews));
 }
-
 
 // Setup event listeners
 function setupEventListeners() {
@@ -300,7 +302,7 @@ function renderRestaurants() {
     restaurantsContainer.classList.remove('hidden');
     noResults.classList.add('hidden');
 
-     restaurantsContainer.innerHTML = filteredRestaurants.map(restaurant => {
+    restaurantsContainer.innerHTML = filteredRestaurants.map(restaurant => {
         const avgRating = calculateAverageRating(restaurant.id);
         const restaurantReviews = reviews[restaurant.id] || [];
         
