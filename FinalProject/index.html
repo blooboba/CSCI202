@@ -58,6 +58,49 @@
         </div>
     </main>
 
+    <!-- Review Modal -->
+    <div id="reviewModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalRestaurantName">Add Review</h2>
+                <button class="modal-close" onclick="closeReviewModal()">×</button>
+            </div>
+            <form id="reviewForm" class="review-form">
+                <div class="form-group">
+                    <label for="reviewerName">Your Name</label>
+                    <input type="text" id="reviewerName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Rating</label>
+                    <div class="star-rating">
+                        <span class="star" data-rating="1">★</span>
+                        <span class="star" data-rating="2">★</span>
+                        <span class="star" data-rating="3">★</span>
+                        <span class="star" data-rating="4">★</span>
+                        <span class="star" data-rating="5">★</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reviewText">Your Review</label>
+                    <textarea id="reviewText" rows="4" required placeholder="Share your experience..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reviewPhoto">Add Photo (optional)</label>
+                    <input type="file" id="reviewPhoto" accept="image/*">
+                    <div id="photoPreview" class="photo-preview hidden"></div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeReviewModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Submit Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
