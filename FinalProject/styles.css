@@ -280,7 +280,7 @@ body {
 
 .restaurant-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 1rem;
 }
 
@@ -413,6 +413,10 @@ body {
 
 .modal-close:hover {
     color: #374151;
+}
+
+.modal:not(.hidden) {
+    display: flex !important;
 }
 
 .review-form {
