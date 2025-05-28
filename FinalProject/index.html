@@ -1,1 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bellingham Bites Guide - Local Restaurants</title>
+    <meta name="description" content="Discover the best restaurants from Bellingham to Ferndale">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="header-title">
+                Local Restaurants from<br>
+                Bellingham to Ferndale
+            </h1>
+        </div>
+    </header>
 
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-bar">
+                    <div class="search-input-container">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="21 21l-4.35-4.35"></path>
+                        </svg>
+                        <input type="text" id="searchInput" placeholder="Search restaurants..." class="search-input">
+                    </div>
+                    <div class="category-dropdown-container">
+                        <button id="categoryButton" class="category-button">
+                            <span id="selectedCategory">All Categories</span>
+                            <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6,9 12,15 18,9"></polyline>
+                            </svg>
+                        </button>
+                        <div id="categoryDropdown" class="category-dropdown hidden">
+                            <!-- Categories will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restaurant Cards Container -->
+            <div id="restaurantsContainer" class="restaurants-container">
+                <!-- Restaurant cards will be populated by JavaScript -->
+            </div>
+
+            <!-- No Results Message -->
+            <div id="noResults" class="no-results hidden">
+                <p class="no-results-title">No restaurants found matching your criteria.</p>
+                <p class="no-results-subtitle">Try adjusting your search or category filter.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
