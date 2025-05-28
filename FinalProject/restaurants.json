@@ -1,0 +1,224 @@
+{
+  "restaurants": [
+    {
+      "id": "1",
+      "name": "Casa Que Pasa",
+      "category": "Mexican",
+      "subcategory": "Vegan Options",
+      "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop",
+      "description": "Massive burritos",
+      "emoji": "\ud83c\udf2f",
+      "address": "1415 Railroad Ave, Bellingham, WA"
+    },
+    {
+      "id": "2",
+      "name": "Colophon Caf\u00e9",
+      "category": "Caf\u00e9",
+      "subcategory": "Desserts",
+      "image": "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&h=300&fit=crop",
+      "description": "Try the raspberry jam bars!",
+      "emoji": "",
+      "address": "1208 11th St, Bellingham, WA"
+    },
+    {
+      "id": "3",
+      "name": "Rock and Rye Oyster House",
+      "category": "Seafood",
+      "subcategory": "Cocktails",
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop",
+      "description": "Daily oyster specials",
+      "emoji": "\ud83e\uddaa",
+      "address": "316 W Holly St, Bellingham, WA"
+    },
+    {
+      "id": "4",
+      "name": "Boundary Bay Brewery",
+      "category": "American",
+      "subcategory": "Brewery",
+      "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop",
+      "description": "Local craft beers and hearty pub fare",
+      "emoji": "\ud83c\udf7a",
+      "address": "1107 Railroad Ave, Bellingham, WA"
+    },
+    {
+      "id": "5",
+      "name": "Pel'meni",
+      "category": "Russian",
+      "subcategory": "Comfort Food",
+      "image": "https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&h=300&fit=crop",
+      "description": "Authentic Russian dumplings",
+      "emoji": "\ud83e\udd5f",
+      "address": "1309 Railroad Ave, Bellingham, WA"
+    },
+    {
+      "id": "6",
+      "name": "The Fork at Agate Bay",
+      "category": "Pacific Northwest",
+      "subcategory": "Fine Dining",
+      "image": "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=300&fit=crop",
+      "description": "Waterfront dining with local ingredients",
+      "emoji": "\ud83c\udf7d\ufe0f",
+      "address": "4144 Agate Bay Ln, Bellingham, WA"
+    },
+    {
+      "id": "7",
+      "name": "D'Anna's Caf\u00e9 Italiano",
+      "category": "Italian",
+      "subcategory": "Family Dining",
+      "image": "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&h=300&fit=crop",
+      "description": "Authentic Italian cuisine in a cozy atmosphere",
+      "emoji": "\ud83c\udf5d",
+      "address": "2410 Meridian St, Bellingham, WA"
+    },
+    {
+      "id": "8",
+      "name": "Avenue Bread",
+      "category": "Bakery",
+      "subcategory": "Coffee",
+      "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop",
+      "description": "Fresh baked goods and artisan coffee",
+      "emoji": "\ud83e\udd56",
+      "address": "1135 Railroad Ave, Bellingham, WA"
+    },
+    {
+      "id": "9",
+      "name": "The Black Cat",
+      "category": "Bistro",
+      "subcategory": "Historic Setting",
+      "image": "https://images.unsplash.com/photo-1555992336-03a23c6f4c95?w=400&h=300&fit=crop",
+      "description": "Classic dishes in a cozy upstairs setting",
+      "emoji": "\ud83d\udc08",
+      "address": "1200 Harris Ave #310, Bellingham, WA"
+    },
+    {
+      "id": "10",
+      "name": "Dirty Dan Harris Steakhouse",
+      "category": "Steakhouse",
+      "subcategory": "Historic Dining",
+      "image": "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=400&h=300&fit=crop",
+      "description": "A Fairhaven classic with hearty steak dinners",
+      "emoji": "\ud83e\udd69",
+      "address": "1211 11th St, Bellingham, WA"
+    },
+    {
+      "id": "11",
+      "name": "Fairhaven Poke",
+      "category": "Hawaiian",
+      "subcategory": "Seafood",
+      "image": "https://images.unsplash.com/photo-1601314167091-4b1fa6b9c9bb?w=400&h=300&fit=crop",
+      "description": "Build-your-own poke bowls with fresh toppings",
+      "emoji": "\ud83d\udc1f",
+      "address": "1140 10th St #101, Bellingham, WA"
+    },
+    {
+      "id": "12",
+      "name": "Fairhaven Village Tacos",
+      "category": "Mexican",
+      "subcategory": "Street Food",
+      "image": "https://images.unsplash.com/photo-1552332386-f8dd00dc2fdf?w=400&h=300&fit=crop",
+      "description": "Authentic street-style tacos in the village",
+      "emoji": "\ud83c\udf2e",
+      "address": "1102 Harris Ave, Bellingham, WA"
+    },
+    {
+      "id": "13",
+      "name": "The Filling Station",
+      "category": "American",
+      "subcategory": "Burgers",
+      "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?w=400&h=300&fit=crop",
+      "description": "Retro-themed diner with burgers and beer",
+      "emoji": "\ud83c\udf54",
+      "address": "1138 Finnegan Way, Bellingham, WA"
+    },
+    {
+        "id": "14",
+        "name": "Jalapeños",
+        "category": "Mexican",
+        "subcategory": "Bar & Grill",
+        "image": "https://images.unsplash.com/photo-1601924928376-cfb60c4f4f6e?w=400&h=300&fit=crop",
+        "description": "Margaritas and Mexican favorites in a festive setting",
+        "emoji": "🌶️",
+        "address": "1007 Harris Ave, Bellingham, WA"
+    },
+    {
+        "id": "15",
+        "name": "Mambo Italiano Café",
+        "category": "Italian",
+        "subcategory": "Fine Dining",
+        "image": "https://images.unsplash.com/photo-1547592180-802d14278a64?w=400&h=300&fit=crop",
+        "description": "Elegant Italian fare in the heart of Fairhaven",
+        "emoji": "🍷",
+        "address": "1303 12th St, Bellingham, WA"
+    },
+    {
+        "id": "16",
+        "name": "Övn Wood Fired Pizza",
+        "category": "Pizza",
+        "subcategory": "Artisan",
+        "image": "https://images.unsplash.com/photo-1601924572562-b91c5c55bba4?w=400&h=300&fit=crop",
+        "description": "Neapolitan-style pizzas from a wood-fired oven",
+        "emoji": "🔥",
+        "address": "1148 10th St, Bellingham, WA"
+    },
+    {
+        "id": "17",
+        "name": "Skylark's Hidden Café",
+        "category": "American",
+        "subcategory": "Brunch",
+        "image": "https://images.unsplash.com/photo-1598514982846-ef6f37ca6485?w=400&h=300&fit=crop",
+        "description": "Eclectic menu with brunch, burgers, and pasta",
+        "emoji": "🌞",
+        "address": "1308 11th St, Bellingham, WA"
+    },
+    {
+        "id": "18",
+        "name": "Stones Throw Brewery",
+        "category": "Brewery",
+        "subcategory": "Craft Beer",
+        "image": "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=400&h=300&fit=crop",
+        "description": "Relaxed atmosphere with local craft brews",
+        "emoji": "🍻",
+        "address": "1009 Larrabee Ave, Bellingham, WA"
+    },
+    {
+        "id": "19",
+        "name": "AB Crepes",
+        "category": "Café",
+        "subcategory": "Crepes",
+        "image": "https://images.unsplash.com/photo-1613145997860-7c0bff1823ae?w=400&h=300&fit=crop",
+        "description": "Savory and sweet crepes made to order",
+        "emoji": "🥞",
+        "address": "1311 Railroad Ave, Bellingham, WA"
+    },
+    {
+        "id": "20",
+        "name": "Aslan Brewing Company",
+        "category": "Brewery",
+        "subcategory": "Organic",
+        "image": "https://images.unsplash.com/photo-1603052875999-50c6ff829b3d?w=400&h=300&fit=crop",
+        "description": "Organic brewery with a rotating menu and beer list",
+        "emoji": "🍺",
+        "address": "1330 N Forest St, Bellingham, WA"
+    },
+    {
+        "id": "21",
+        "name": "Bayou On Bay",
+        "category": "Southern",
+        "subcategory": "Cajun",
+        "image": "https://images.unsplash.com/photo-1611599539561-7e66c74dff1c?w=400&h=300&fit=crop",
+        "description": "Southern and Cajun-inspired eats in a lively setting",
+        "emoji": "🦐",
+        "address": "1300 Bay St, Bellingham, WA"
+    },
+    {
+        "id": "22",
+        "name": "Brandywine Kitchen",
+        "category": "American",
+        "subcategory": "Farm-to-Table",
+        "image": "https://images.unsplash.com/photo-1600891963934-c4d5b02f5f3e?w=400&h=300&fit=crop",
+        "description": "Seasonal menu made with locally sourced ingredients",
+        "emoji": "🥗",
+        "address": "1317 Commercial St, Bellingham, WA"
+    }
+  ]
+}

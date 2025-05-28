@@ -1,0 +1,311 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: #374151;
+    background-color: #f9fafb;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(to right, #2563eb, #1e40af);
+    color: white;
+    padding: 2rem 0;
+}
+
+.header-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+    .header-title {
+        font-size: 2.5rem;
+    }
+}
+
+/* Main content */
+.main {
+    padding-bottom: 2rem;
+}
+
+/* Search container */
+.search-container {
+    margin: 0 1rem;
+    position: relative;
+    z-index: 10;
+}
+
+.search-bar {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-top: -1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .search-container {
+        margin: 0 2rem;
+    }
+    
+    .search-bar {
+        flex-direction: row;
+    }
+}
+
+/* Search input */
+.search-input-container {
+    position: relative;
+    flex: 1;
+}
+
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #9ca3af;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.search-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Category dropdown */
+.category-dropdown-container {
+    position: relative;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .category-dropdown-container {
+        width: 12rem;
+    }
+}
+
+.category-button {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    background: white;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.category-button:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.dropdown-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #9ca3af;
+    transition: transform 0.2s;
+}
+
+.category-button.open .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+.category-dropdown {
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    z-index: 20;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.category-option {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 0.875rem;
+}
+
+.category-option:hover,
+.category-option:focus {
+    background-color: #f9fafb;
+    outline: none;
+}
+
+.category-option:first-child {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.category-option:last-child {
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* Restaurants container */
+.restaurants-container {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Restaurant card */
+.restaurant-card {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+}
+
+.restaurant-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.restaurant-card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .restaurant-card-content {
+        flex-direction: row;
+    }
+}
+
+.restaurant-image {
+    width: 100%;
+    height: 12rem;
+    object-fit: cover;
+}
+
+@media (min-width: 768px) {
+    .restaurant-image {
+        width: 33.333333%;
+        height: auto;
+    }
+}
+
+.restaurant-info {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.restaurant-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.restaurant-category {
+    color: #6b7280;
+    margin-bottom: 0.75rem;
+}
+
+.restaurant-category .separator {
+    margin: 0 0.5rem;
+}
+
+.restaurant-description {
+    color: #374151;
+    margin-bottom: 1rem;
+    flex: 1;
+}
+
+.restaurant-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.maps-button {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.maps-button:hover {
+    background-color: #1d4ed8;
+}
+
+/* No results */
+.no-results {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.no-results-title {
+    font-size: 1.125rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.no-results-subtitle {
+    color: #9ca3af;
+}
+
+/* Utility classes */
+.hidden {
+    display: none;
+}
+
+/* Loading state */
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #6b7280;
+}
