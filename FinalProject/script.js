@@ -91,6 +91,7 @@ function setupEventListeners() {
             closeCategoryDropdown();
             closeReviewModal();
             closeAllReviewsModal();
+            closePhotoModal();
         }
     });
 
@@ -205,6 +206,35 @@ function closeReviewModal() {
     currentRestaurantId = null;
 }
 
+// Open photo modal for larger view
+function openPhotoModal(photoSrc, reviewerName) {
+    const modal = document.createElement('div');
+    modal.id = 'photoModal';
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 90vw; max-height: 90vh; padding: 1rem;">
+            <div class="modal-header">
+                <h2>Photo by ${reviewerName}</h2>
+                <button class="modal-close" onclick="closePhotoModal()">×</button>
+            </div>
+            <div style="text-align: center; padding: 1rem;">
+                <img src="${photoSrc}" alt="Review photo" style="max-width: 100%; max-height: 70vh; object-fit: contain; border-radius: 0.5rem;">
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+// Close photo modal
+function closePhotoModal() {
+    const modal = document.getElementById('photoModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+
 // Open all reviews modal
 function openAllReviewsModal(restaurantId, restaurantName) {
     const restaurant = restaurants.find(r => r.id === restaurantId);
@@ -229,7 +259,7 @@ function openAllReviewsModal(restaurantId, restaurantName) {
                             </div>
                             <p class="review-text">${review.text}</p>
                             <div class="review-date">${review.date}</div>
-                            ${review.photo ? `<img src="${review.photo}" alt="Review photo" class="review-photo">` : ''}
+                           ${review.photo ? `<img src="${review.photo}" alt="Review photo" class="review-photo" onclick="openPhotoModal('${review.photo}', '${review.reviewerName}')" style="cursor: pointer;">` : ''}
                         </div>
                     `).join('')}
                 ` : '<p class="no-reviews-message">No reviews yet for this restaurant.</p>'}
@@ -396,7 +426,7 @@ function renderRestaurants() {
                                             <span class="review-rating">${generateStarDisplay(review.rating)}</span>
                                         </div>
                                         <p class="review-text">${review.text}</p>
-                                        ${review.photo ? `<img src="${review.photo}" alt="Review photo" class="review-photo">` : ''}
+                                        ${review.photo ? `<img src="${review.photo}" alt="Review photo" class="review-photo" onclick="openPhotoModal('${review.photo}', '${review.reviewerName}')" style="cursor: pointer;">` : ''}
                                     </div>
                                 `).join('')}
                             </div>
