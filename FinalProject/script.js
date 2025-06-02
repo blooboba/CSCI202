@@ -22,6 +22,7 @@ const modalRestaurantName = document.getElementById('modalRestaurantName');
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async () => {
     await loadRestaurants();
+    generateAllGoogleMapsLinks();
     loadReviews();
     setupEventListeners();
     renderCategories();
@@ -89,6 +90,7 @@ function setupEventListeners() {
         if (e.key === 'Escape') {
             closeCategoryDropdown();
             closeReviewModal();
+            closeAllReviewsModal();
         }
     });
 
@@ -203,6 +205,49 @@ function closeReviewModal() {
     currentRestaurantId = null;
 }
 
+// Open all reviews modal
+function openAllReviewsModal(restaurantId, restaurantName) {
+    const restaurant = restaurants.find(r => r.id === restaurantId);
+    const restaurantReviews = reviews[restaurantId] || [];
+    
+    const modal = document.createElement('div');
+    modal.id = 'allReviewsModal';
+    modal.className = 'modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>All Reviews for ${restaurantName}</h2>
+                <button class="modal-close" onclick="closeAllReviewsModal()">×</button>
+            </div>
+            <div class="all-reviews-content">
+                ${restaurantReviews.length > 0 ? `
+                    ${restaurantReviews.map(review => `
+                        <div class="review-item">
+                            <div class="review-header">
+                                <span class="reviewer-name">${review.reviewerName}</span>
+                                <span class="review-rating">${generateStarDisplay(review.rating)}</span>
+                            </div>
+                            <p class="review-text">${review.text}</p>
+                            <div class="review-date">${review.date}</div>
+                            ${review.photo ? `<img src="${review.photo}" alt="Review photo" class="review-photo">` : ''}
+                        </div>
+                    `).join('')}
+                ` : '<p class="no-reviews-message">No reviews yet for this restaurant.</p>'}
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+// Close all reviews modal
+function closeAllReviewsModal() {
+    const modal = document.getElementById('allReviewsModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
 // Calculate average rating for a restaurant
 function calculateAverageRating(restaurantId) {
     const restaurantReviews = reviews[restaurantId] || [];
@@ -305,6 +350,7 @@ function renderRestaurants() {
     restaurantsContainer.innerHTML = filteredRestaurants.map(restaurant => {
         const avgRating = calculateAverageRating(restaurant.id);
         const restaurantReviews = reviews[restaurant.id] || [];
+        const displayedReviews = restaurantReviews.slice(-2); // Show only last 2 reviews
         
         return `
             <div class="restaurant-card">
@@ -335,8 +381,15 @@ function renderRestaurants() {
                         
                         ${restaurantReviews.length > 0 ? `
                             <div class="reviews-section">
-                                <div class="reviews-header">Recent Reviews:</div>
-                                ${restaurantReviews.slice(-2).map(review => `
+                                <div class="reviews-header">
+                                    Recent Reviews:
+                                    ${restaurantReviews.length > 2 ? `
+                                        <button class="view-all-reviews-btn" onclick="openAllReviewsModal('${restaurant.id}', '${restaurant.name}')">
+                                            View All ${restaurantReviews.length} Reviews
+                                        </button>
+                                    ` : ''}
+                                </div>
+                                ${displayedReviews.map(review => `
                                     <div class="review-item">
                                         <div class="review-header">
                                             <span class="reviewer-name">${review.reviewerName}</span>
@@ -353,7 +406,10 @@ function renderRestaurants() {
                             <button class="review-button" onclick="openReviewModal('${restaurant.id}', '${restaurant.name}')">
                                 Add Review
                             </button>
-                            <button class="maps-button" onclick="openGoogleMaps('${restaurant.name}', '${restaurant.address || 'Bellingham, WA'}')">
+                            <button 
+                                class="maps-button" 
+                                data-name="${encodeURIComponent(restaurant.name)}" 
+                                data-address="${encodeURIComponent(restaurant.address || 'Bellingham, WA')}">
                                 View on Google Maps
                             </button>
                         </div>
@@ -362,6 +418,14 @@ function renderRestaurants() {
             </div>
         `;
     }).join('');
+
+    document.querySelectorAll('.maps-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const name = decodeURIComponent(button.dataset.name);
+            const address = decodeURIComponent(button.dataset.address);
+            openGoogleMaps(name, address);
+        });
+    });
 }
 
 // Open Google Maps
@@ -392,4 +456,13 @@ function debounce(func, wait) {
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
+}
+
+// Function to generate Google Maps Links
+function generateAllGoogleMapsLinks() {
+    restaurants.forEach(r => {
+        const query = encodeURIComponent(`${r.name} ${r.address}`);
+        const url = `https://www.google.com/maps/search/?api=1&query=${query}`;
+        console.log(`${r.name}: ${url}`);
+    });
 }
