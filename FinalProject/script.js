@@ -4,9 +4,12 @@ let filteredRestaurants = [];
 let categories = ['All Categories'];
 let selectedCategory = 'All Categories';
 let searchQuery = '';
+let showFavorites = false;
+let favorites = [];
 let reviews = {}; // Store reviews by restaurant ID
 let currentRestaurantId = null;
 let selectedRating = 0;
+let isDarkMode = false;
 
 // DOM elements
 const searchInput = document.getElementById('searchInput');
@@ -18,12 +21,15 @@ const noResults = document.getElementById('noResults');
 const reviewModal = document.getElementById('reviewModal');
 const reviewForm = document.getElementById('reviewForm');
 const modalRestaurantName = document.getElementById('modalRestaurantName');
+const darkModeToggle = document.getElementById('darkModeToggle');
+const favoritesToggle = document.getElementById('favoritesToggle');
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async () => {
     await loadRestaurants();
-    generateAllGoogleMapsLinks();
     loadReviews();
+    loadFavorites();
+    loadDarkModePreference();
     setupEventListeners();
     renderCategories();
     filterAndRenderRestaurants();
@@ -59,6 +65,76 @@ function loadReviews() {
     }
 }
 
+// Load favorites from localStorage
+function loadFavorites() {
+    const savedFavorites = localStorage.getItem('restaurantFavorites');
+    if (savedFavorites) {
+        favorites = JSON.parse(savedFavorites);
+    }
+}
+
+// Load dark mode preference
+function loadDarkModePreference() {
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode !== null) {
+        isDarkMode = JSON.parse(savedDarkMode);
+    } else {
+        // Default to system preference
+        isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    applyDarkMode();
+}
+
+// Apply dark mode
+function applyDarkMode() {
+    if (isDarkMode) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+    updateDarkModeToggle();
+}
+
+// Update dark mode toggle icon
+function updateDarkModeToggle() {
+    const sunIcon = darkModeToggle.querySelector('.sun-icon');
+    const moonIcon = darkModeToggle.querySelector('.moon-icon');
+    
+    if (isDarkMode) {
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+    } else {
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+    }
+}
+
+// Toggle dark mode
+function toggleDarkMode() {
+    isDarkMode = !isDarkMode;
+    localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
+    applyDarkMode();
+}
+
+// Toggle favorite
+function toggleFavorite(restaurantId) {
+    const index = favorites.indexOf(restaurantId);
+    if (index > -1) {
+        favorites.splice(index, 1);
+    } else {
+        favorites.push(restaurantId);
+    }
+    localStorage.setItem('restaurantFavorites', JSON.stringify(favorites));
+    filterAndRenderRestaurants();
+}
+
+// Toggle show favorites
+function toggleShowFavorites() {
+    showFavorites = !showFavorites;
+    favoritesToggle.classList.toggle('active', showFavorites);
+    filterAndRenderRestaurants();
+}
+
 // Save reviews to localStorage
 function saveReviews() {
     localStorage.setItem('restaurantReviews', JSON.stringify(reviews));
@@ -77,6 +153,12 @@ function setupEventListeners() {
         e.stopPropagation();
         toggleCategoryDropdown();
     });
+
+    // Dark mode toggle
+    darkModeToggle.addEventListener('click', toggleDarkMode);
+
+    // Favorites toggle
+    favoritesToggle.addEventListener('click', toggleShowFavorites);
 
     // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
@@ -234,7 +316,6 @@ function closePhotoModal() {
     }
 }
 
-
 // Open all reviews modal
 function openAllReviewsModal(restaurantId, restaurantName) {
     const restaurant = restaurants.find(r => r.id === restaurantId);
@@ -259,7 +340,7 @@ function openAllReviewsModal(restaurantId, restaurantName) {
                             </div>
                             <p class="review-text">${review.text}</p>
                             <div class="review-date">${review.date}</div>
-                           ${review.photo ? `<img src="${review.photo}" alt="Review photo" class="review-photo" onclick="openPhotoModal('${review.photo}', '${review.reviewerName}')" style="cursor: pointer;">` : ''}
+                            ${review.photo ? `<img src="${review.photo}" alt="Review photo" class="review-photo" onclick="openPhotoModal('${review.photo}', '${review.reviewerName}')" style="cursor: pointer;">` : ''}
                         </div>
                     `).join('')}
                 ` : '<p class="no-reviews-message">No reviews yet for this restaurant.</p>'}
@@ -360,7 +441,9 @@ function filterAndRenderRestaurants() {
         const matchesCategory = selectedCategory === 'All Categories' || 
             restaurant.category === selectedCategory;
 
-        return matchesSearch && matchesCategory;
+        const matchesFavorites = !showFavorites || favorites.includes(restaurant.id);
+
+        return matchesSearch && matchesCategory && matchesFavorites;
     });
 
     renderRestaurants();
@@ -381,6 +464,7 @@ function renderRestaurants() {
         const avgRating = calculateAverageRating(restaurant.id);
         const restaurantReviews = reviews[restaurant.id] || [];
         const displayedReviews = restaurantReviews.slice(-2); // Show only last 2 reviews
+        const isFavorite = favorites.includes(restaurant.id);
         
         return `
             <div class="restaurant-card">
@@ -393,7 +477,14 @@ function renderRestaurants() {
                     >
                     <div class="restaurant-info">
                         <div>
-                            <h3 class="restaurant-name">${restaurant.name}</h3>
+                            <div class="restaurant-header">
+                                <h3 class="restaurant-name">${restaurant.name}</h3>
+                                <button class="favorite-button ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${restaurant.id}')" aria-label="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                                    <svg class="bookmark-icon" viewBox="0 0 24 24" fill="${isFavorite ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                                        <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
+                                    </svg>
+                                </button>
+                            </div>
                             <p class="restaurant-category">
                                 ${restaurant.category}
                                 ${restaurant.subcategory ? `<span class="separator">•</span>${restaurant.subcategory}` : ''}
@@ -436,10 +527,7 @@ function renderRestaurants() {
                             <button class="review-button" onclick="openReviewModal('${restaurant.id}', '${restaurant.name}')">
                                 Add Review
                             </button>
-                            <button 
-                                class="maps-button" 
-                                data-name="${encodeURIComponent(restaurant.name)}" 
-                                data-address="${encodeURIComponent(restaurant.address || 'Bellingham, WA')}">
+                            <button class="maps-button" onclick="openGoogleMaps('${restaurant.name}', '${restaurant.address || 'Bellingham, WA'}')">
                                 View on Google Maps
                             </button>
                         </div>
@@ -448,14 +536,6 @@ function renderRestaurants() {
             </div>
         `;
     }).join('');
-
-    document.querySelectorAll('.maps-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const name = decodeURIComponent(button.dataset.name);
-            const address = decodeURIComponent(button.dataset.address);
-            openGoogleMaps(name, address);
-        });
-    });
 }
 
 // Open Google Maps
@@ -486,13 +566,4 @@ function debounce(func, wait) {
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
-}
-
-// Function to generate Google Maps Links
-function generateAllGoogleMapsLinks() {
-    restaurants.forEach(r => {
-        const query = encodeURIComponent(`${r.name} ${r.address}`);
-        const url = `https://www.google.com/maps/search/?api=1&query=${query}`;
-        console.log(`${r.name}: ${url}`);
-    });
 }
