@@ -57,12 +57,22 @@ async function loadRestaurants() {
     }
 }
 
-// Load reviews from localStorage
-function loadReviews() {
-    const savedReviews = localStorage.getItem('restaurantReviews');
-    if (savedReviews) {
-        reviews = JSON.parse(savedReviews);
-    }
+// Load reviews from Firebase Firestore
+async function loadReviews() {
+    reviews = {};
+    const reviewsCol = collection(window.firestore, "reviews");
+    const snapshot = await getDocs(reviewsCol);
+
+    snapshot.forEach(doc => {
+        const review = doc.data();
+        const id = review.restaurantId;
+        if (!reviews[id]) {
+            reviews[id] = [];
+        }
+        reviews[id].push(review);
+    });
+
+    filterAndRenderRestaurants();
 }
 
 // Load favorites from localStorage
@@ -135,10 +145,6 @@ function toggleShowFavorites() {
     filterAndRenderRestaurants();
 }
 
-// Save reviews to localStorage
-function saveReviews() {
-    localStorage.setItem('restaurantReviews', JSON.stringify(reviews));
-}
 
 // Setup event listeners
 function setupEventListeners() {
@@ -256,16 +262,22 @@ function handleReviewSubmission(e) {
     }
 }
 
-// Add review to the restaurant
-function addReview(review) {
-    if (!reviews[currentRestaurantId]) {
-        reviews[currentRestaurantId] = [];
+// Save review to Firebase Firestore
+async function addReview(review) {
+    review.restaurantId = currentRestaurantId;
+
+    try {
+        await addDoc(collection(window.firestore, "reviews"), review);
+        if (!reviews[currentRestaurantId]) {
+            reviews[currentRestaurantId] = [];
+        }
+        reviews[currentRestaurantId].push(review);
+        closeReviewModal();
+        filterAndRenderRestaurants();
+    } catch (error) {
+        alert("Error saving review. Please try again.");
+        console.error(error);
     }
-    
-    reviews[currentRestaurantId].push(review);
-    saveReviews();
-    closeReviewModal();
-    filterAndRenderRestaurants();
 }
 
 // Open review modal
