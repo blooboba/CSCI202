@@ -524,7 +524,10 @@ function renderRestaurants() {
                         ` : ''}
                         
                         <div class="restaurant-actions">
-                            <button class="review-button" onclick="openReviewModal('${restaurant.id}', '${restaurant.name}')">
+                            <button 
+                                class="review-button" 
+                                data-id="${restaurant.id}" 
+                                data-name="${encodeURIComponent(restaurant.name)}">
                                 Add Review
                             </button>
                             <button 
@@ -540,11 +543,21 @@ function renderRestaurants() {
         `;
     }).join('');
 
+    // Attach event listeners to all open maps buttons
     document.querySelectorAll('.maps-button').forEach(button => {
         button.addEventListener('click', () => {
             const name = decodeURIComponent(button.dataset.name);
             const address = decodeURIComponent(button.dataset.address);
             openGoogleMaps(name, address);
+        });
+    });
+
+    // Attach event listeners to all review buttons
+    document.querySelectorAll('.review-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.dataset.id;
+            const name = decodeURIComponent(button.dataset.name);
+            openReviewModal(id, name);
         });
     });
 }
