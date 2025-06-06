@@ -48,7 +48,7 @@
                     <div class="search-input-container">
                         <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="8"></circle>
-                            <path d="M21 21l-4.35-4.35"></path>
+                            <path d="21 21l-4.35-4.35"></path>
                         </svg>
                         <input type="text" id="searchInput" placeholder="Search restaurants..." class="search-input">
                     </div>
@@ -130,32 +130,6 @@
         </div>
     </div>
 
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
-      import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
-
-      // Your Firebase config
-      const firebaseConfig = {
-        apiKey: "AIzaSyA4FxyRTgByqjynJARAdY1IHSFkVeITQ28",
-        authDomain: "bellingham-eats.firebaseapp.com",
-        projectId: "bellingham-eats",
-        storageBucket: "bellingham-eats.firebasestorage.app",
-        messagingSenderId: "499445930934",
-        appId: "1:499445930934:web:6abcbdc39c64b5fd25ff17"
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      // Expose globally for your script.js to access
-      window.firebaseApp = app;
-      window.firestore = db;
-      window.collection = collection;
-      window.getDocs = getDocs;
-      window.addDoc = addDoc;
-    </script>
-
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
 </body>
 </html>
