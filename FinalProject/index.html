@@ -130,6 +130,28 @@
         </div>
     </div>
 
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+      import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+
+      // Your Firebase config
+      const firebaseConfig = {
+        apiKey: "AIzaSyA4FxyRTgByqjynJARAdY1IHSFkVeITQ28",
+        authDomain: "bellingham-eats.firebaseapp.com",
+        projectId: "bellingham-eats",
+        storageBucket: "bellingham-eats.firebasestorage.app",
+        messagingSenderId: "499445930934",
+        appId: "1:499445930934:web:6abcbdc39c64b5fd25ff17"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // Expose globally for your script.js to access
+      window.firebaseApp = app;
+      window.firestore = db;
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
