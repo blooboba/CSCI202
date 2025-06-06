@@ -23,6 +23,8 @@ const reviewForm = document.getElementById('reviewForm');
 const modalRestaurantName = document.getElementById('modalRestaurantName');
 const darkModeToggle = document.getElementById('darkModeToggle');
 const favoritesToggle = document.getElementById('favoritesToggle');
+const reviewsCol = window.collection(window.firestore, "reviews");
+const snapshot = await window.getDocs(reviewsCol);
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async () => {
