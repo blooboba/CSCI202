@@ -527,7 +527,10 @@ function renderRestaurants() {
                             <button class="review-button" onclick="openReviewModal('${restaurant.id}', '${restaurant.name}')">
                                 Add Review
                             </button>
-                            <button class="maps-button" onclick="openGoogleMaps('${restaurant.name}', '${restaurant.address || 'Bellingham, WA'}')">
+                            <button 
+                                class="maps-button" 
+                                data-name="${encodeURIComponent(restaurant.name)}" 
+                                data-address="${encodeURIComponent(restaurant.address || 'Bellingham, WA')}">
                                 View on Google Maps
                             </button>
                         </div>
@@ -536,6 +539,14 @@ function renderRestaurants() {
             </div>
         `;
     }).join('');
+
+    document.querySelectorAll('.maps-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const name = decodeURIComponent(button.dataset.name);
+            const address = decodeURIComponent(button.dataset.address);
+            openGoogleMaps(name, address);
+        });
+    });
 }
 
 // Open Google Maps
