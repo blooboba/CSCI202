@@ -469,6 +469,16 @@
     "description": "Customizable pita wraps, perfect for a quick bite.",
     "emoji": "🥙",
     "address": "100 E Holly St, Bellingham, WA"
+  },
+  {
+  "id": "48",
+  "name": "Ramen & Bowl",
+  "category": "Asian",
+  "subcategory": "Japanese",
+  "image": "images/ramenandbowl.jpg",
+  "description": "Authentic Japanese ramen and rice bowls in a cozy modern setting.",
+  "emoji": "\u{1F35C}",
+  "address": "3503 Byron Ave, Bellingham, WA 98225",
   }
   ]
 }
