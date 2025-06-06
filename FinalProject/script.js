@@ -23,8 +23,6 @@ const reviewForm = document.getElementById('reviewForm');
 const modalRestaurantName = document.getElementById('modalRestaurantName');
 const darkModeToggle = document.getElementById('darkModeToggle');
 const favoritesToggle = document.getElementById('favoritesToggle');
-const reviewsCol = window.collection(window.firestore, "reviews");
-const snapshot = await window.getDocs(reviewsCol);
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async () => {
@@ -59,22 +57,12 @@ async function loadRestaurants() {
     }
 }
 
-// Load reviews from Firebase Firestore
-async function loadReviews() {
-    reviews = {};
-    const reviewsCol = collection(window.firestore, "reviews");
-    const snapshot = await getDocs(reviewsCol);
-
-    snapshot.forEach(doc => {
-        const review = doc.data();
-        const id = review.restaurantId;
-        if (!reviews[id]) {
-            reviews[id] = [];
-        }
-        reviews[id].push(review);
-    });
-
-    filterAndRenderRestaurants();
+// Load reviews from localStorage
+function loadReviews() {
+    const savedReviews = localStorage.getItem('restaurantReviews');
+    if (savedReviews) {
+        reviews = JSON.parse(savedReviews);
+    }
 }
 
 // Load favorites from localStorage
@@ -147,6 +135,10 @@ function toggleShowFavorites() {
     filterAndRenderRestaurants();
 }
 
+// Save reviews to localStorage
+function saveReviews() {
+    localStorage.setItem('restaurantReviews', JSON.stringify(reviews));
+}
 
 // Setup event listeners
 function setupEventListeners() {
@@ -264,22 +256,16 @@ function handleReviewSubmission(e) {
     }
 }
 
-// Save review to Firebase Firestore
-async function addReview(review) {
-    review.restaurantId = currentRestaurantId;
-
-    try {
-        await addDoc(collection(window.firestore, "reviews"), review);
-        if (!reviews[currentRestaurantId]) {
-            reviews[currentRestaurantId] = [];
-        }
-        reviews[currentRestaurantId].push(review);
-        closeReviewModal();
-        filterAndRenderRestaurants();
-    } catch (error) {
-        alert("Error saving review. Please try again.");
-        console.error(error);
+// Add review to the restaurant
+function addReview(review) {
+    if (!reviews[currentRestaurantId]) {
+        reviews[currentRestaurantId] = [];
     }
+    
+    reviews[currentRestaurantId].push(review);
+    saveReviews();
+    closeReviewModal();
+    filterAndRenderRestaurants();
 }
 
 // Open review modal
